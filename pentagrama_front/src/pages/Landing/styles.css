@@ -1,0 +1,11 @@
+.login-form {
+  margin-top: 10rem;
+  max-width: 30rem;
+}
+.main-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  
+}
