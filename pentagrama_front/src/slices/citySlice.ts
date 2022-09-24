@@ -23,6 +23,12 @@ const initialState: CityState = {
       name: "Rio de Janeiro",
       state: "Rio de Janeiro",
       foundation: new Date(1990, 0, 23) // the month is 0-indexed
+    },
+    {
+      id: 3,
+      name: "São Paulo",
+      state: "São Paulo",
+      foundation: new Date(1910, 5, 13) // the month is 0-indexed
     }
   ]
 }

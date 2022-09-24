@@ -14,7 +14,15 @@
 }
 
 .filter{
-  max-width: 20%;
+  max-width: 40%;
+  min-width: 20%;
   padding: 10px;
+
+
 }
 
+.main-table-header-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
