@@ -74,8 +74,6 @@ export const Landing = () => {
     instance.post('/register', { name: credentials.nameReg, email: credentials.emailReg, password: credentials.passwordReg })
       .then(function (response: any) {
 
-        console.log(response.data)
-
         if (response.data.errors) {
           alert("Houve um problema no seu registro!")
         } else {

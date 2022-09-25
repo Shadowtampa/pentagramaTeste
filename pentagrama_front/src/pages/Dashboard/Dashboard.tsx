@@ -217,7 +217,7 @@ export const Dashboard = () => {
               <tbody>
 
                 {presentationCities !== undefined && presentationCities.map(city =>
-                  <tr>
+                  <tr key={city.id}>
                     <td>{city.id}</td>
                     <td>{city.name}</td>
                     <td>{city.state}</td>
@@ -295,7 +295,7 @@ export const Dashboard = () => {
               <tbody>
 
                 {presentationNeighbourhoods.map(neighbourhood =>
-                  <tr>
+                  <tr key={neighbourhood.id}>
                     <td>{neighbourhood.id}</td>
                     <td>{neighbourhood.name}</td>
                     <td>{neighbourhood.name !== "Carregando..." ? cities.filter(city => city.id === neighbourhood.city_id)[0].name : null}</td>

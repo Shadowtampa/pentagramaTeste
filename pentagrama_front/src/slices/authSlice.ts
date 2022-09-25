@@ -8,10 +8,25 @@ export interface AuthState {
   token: string;
 }
 
+let username = "";
+let status = false
+let token = "";
+
+
+try {
+  username = JSON.parse(localStorage.getItem("userName") || "");
+  status = JSON.parse(localStorage.getItem("status") || "");
+  token = JSON.parse(localStorage.getItem("token") || "");
+} catch (error) {
+  username = "";
+  status = false;
+  token = "";
+}
+
 const initialState: AuthState = {
-  userName: JSON.parse(localStorage.getItem("userName") || ""),
-  status: JSON.parse(localStorage.getItem("status") || ""),
-  token: JSON.parse(localStorage.getItem("token") || ""),
+  userName: username,
+  status:status,
+  token: token,
 }
 
 export const authSlice = createSlice({
