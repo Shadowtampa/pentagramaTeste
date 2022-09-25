@@ -10,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../services/redux/store';
-import { toggleLoggedIn } from '../../slices/authSlice';
+import { loginHandler, toggleLoggedIn } from '../../slices/authSlice';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import Modal from 'react-modal';
+import { instance } from '../../services/api/axiosInstance';
 
 const customStyles = {
   content: {
@@ -40,6 +41,13 @@ export const Landing = () => {
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const [emailReg, setEmailReg] = React.useState("");
+  const [passwordReg, setPasswordReg] = React.useState("");
+  const [nameReg, setNameReg] = React.useState("");
+
   function openModal() {
     setIsOpen(true);
   }
@@ -49,75 +57,115 @@ export const Landing = () => {
     setIsOpen(false);
   }
 
-  return (
-    <div className="main-wrapper" style={{marginTop: "10rem"}}>
+  const axios = require('axios').default;
 
+  const handleLoginAPI = async (credentials: { email: string, password: string }) => {
+    instance.post('/login', credentials)
+      .then(function (response: any) {
 
+        if (response.data.status === "success") {
+          dispatch(loginHandler(response.data))
+        } else {
+          alert("Houve um problema no seu login!")
+        }
+      })
+  }
+  const handleRegisterAPI = async (credentials: { nameReg: string, emailReg: string, passwordReg: string }) => {
+    instance.post('/register', { name: credentials.nameReg, email: credentials.emailReg, password: credentials.passwordReg })
+      .then(function (response: any) {
 
+        console.log(response.data)
 
-
-        <Container style={{height: "100%"}}>
-          <Row > 
-            <Col xs={6} >
-              <div style={{display:'flex', flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+        if (response.data.errors) {
+          alert("Houve um problema no seu registro!")
+        } else {
+          instance.post('/login', {email: credentials.emailReg, password : credentials.passwordReg})
+            .then(function (response: any) {
 
               
+
+              if (response.data.status === "success") {
+                dispatch(loginHandler(response.data))
+              } else {
+                alert("Houve um problema no seu login!")
+              }
+            })
+        }
+      })
+      .catch(function (response: any) {
+
+        alert("Houve um erro com sua requisição")
+      })
+  }
+
+  return (
+    <div className="main-wrapper" style={{ marginTop: "10rem" }}>
+
+      <Container style={{ height: "100%" }}>
+        <Row >
+          <Col xs={6} >
+            <div style={{ display: 'flex', flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+
+
               <h2 className="greetings">Bem vindo de volta!</h2>
               <Button onClick={openModal}>Login</Button>
-              </div>
-            </Col>
-            <Col xs={6}>
-              <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
-                  <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                  </Form.Text>
-                </Form.Group>
+            </div>
+          </Col>
+          <Col xs={6}>
+            <Form>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Nome</Form.Label>
+                <Form.Control type="text" placeholder="Enter email" onChange={(event) => setNameReg(event.target.value)} />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" onChange={(event) => setEmailReg(event.target.value)} />
+                <Form.Text className="text-muted">
+                  We'll never share your email with anyone else.
+                </Form.Text>
+              </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Confirm Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
-                </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" placeholder="Password" onChange={(event) => setPasswordReg(event.target.value)} />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control type="password" placeholder="Password" onChange={(event) => setPasswordReg(event.target.value)} />
+              </Form.Group>
 
 
+              <Button variant="primary" onClick={() => handleRegisterAPI({ nameReg, emailReg, passwordReg })}>
+                Register
+              </Button>
+            </Form></Col>
+        </Row>
+      </Container>
 
-                <Button variant="primary" type="submit" onClick={() => handleLogin()}>
-                  Register
-                </Button>
-              </Form></Col>
-          </Row>
-        </Container>
-
-        <Modal
+      <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
       >
-            <Form>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
+        <Form>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" onChange={(event) => setEmail(event.target.value)} />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
+          </Form.Group>
+          <Button variant="primary" onClick={() => { handleLoginAPI({ email, password }) }}>
+            Submit
+          </Button>
+        </Form>
       </Modal>
-      </div>
+    </div>
   )
 }

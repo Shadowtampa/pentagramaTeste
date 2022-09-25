@@ -12,18 +12,10 @@ export interface NeighbourhoodState {
 const initialState: NeighbourhoodState = {
   neighbourhoods: [
     {
-      id: 1,
-      name: "Jardim Santarém",
-      city_id: 1,
-    },{
-      id: 2,
-      name: "Favela da Rocinha",
-      city_id: 2,
-    },{
-      id: 3,
-      name: "Diamantino",
-      city_id: 1,
-    },
+      id: 0,
+      name: "Carregando...",
+      city_id: 0,
+    }
   ],
 }
 
@@ -31,10 +23,13 @@ export const neighbourhoodSlice = createSlice({
   name: 'neighbourhood',
   initialState,
   reducers: {
+    setNeighbourhood: (state, action)=>{
+      state.neighbourhoods = action.payload
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { } = neighbourhoodSlice.actions
+export const {setNeighbourhood } = neighbourhoodSlice.actions
 
 export default neighbourhoodSlice.reducer

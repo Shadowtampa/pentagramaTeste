@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { instance } from '../services/api/axiosInstance'
 
 export interface ICity {
   id: number,
@@ -13,34 +14,65 @@ export interface CityState {
 const initialState: CityState = {
   cities: [
     {
-      id: 1,
-      name: "Santarém",
-      state: "Pará",
-      foundation: new Date(1785, 3, 10) // the month is 0-indexed
-    },
-    {
-      id: 2,
-      name: "Rio de Janeiro",
-      state: "Rio de Janeiro",
-      foundation: new Date(1990, 0, 23) // the month is 0-indexed
-    },
-    {
-      id: 3,
-      name: "São Paulo",
-      state: "São Paulo",
-      foundation: new Date(1910, 5, 13) // the month is 0-indexed
+      id: 0,
+      name: "Carregando...",
+      state: "Carregando...",
+      foundation: new Date(2000, 0, 1) // the month is 0-indexed
     }
   ]
 }
+
+export const fetchCitiesAPI = createAsyncThunk(
+  'users/fetchById',
+  // Declare the type your function argument here:
+  async (token: string) => {
+    const response = instance.get('/city',
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+    // Inferred return type: Promise<MyData>
+    return (await response.json())
+  }
+)
 
 export const citySlice = createSlice({
   name: 'city',
   initialState,
   reducers: {
+    fetchCities: (state, action) => {
+      let tempCities: ICity[] = [];
+      instance.get('/city',
+        {
+          headers: { Authorization: `Bearer ${action.payload}` }
+        })
+        .then(function (response: any) {
+
+          let tempCities: ICity[] = [];
+
+          response.data.map((city: ICity) => {
+            tempCities.push({
+              id: city.id,
+              name: city.name,
+              state: city.state,
+              foundation: city.foundation
+            })
+          })
+          state.cities = tempCities;
+        })
+
+
+
+      // state.cities = tempCities as CityState;
+    },
+
+    setCities: (state, action)=>{
+      state.cities = action.payload
+    }
   },
+
 })
 
 // Action creators are generated for each case reducer function
-export const { } = citySlice.actions
+export const { fetchCities, setCities } = citySlice.actions
 
 export default citySlice.reducer

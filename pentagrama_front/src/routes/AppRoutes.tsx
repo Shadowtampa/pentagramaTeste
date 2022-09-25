@@ -11,10 +11,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import { RootState } from '../services/redux/store';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { Button } from 'react-bootstrap';
-import { toggleLoggedIn } from '../slices/authSlice';
+import { Button, Dropdown } from 'react-bootstrap';
+import { logout, toggleLoggedIn } from '../slices/authSlice';
 
 // import { loadFromStorage } from '../features/authSlice';
+
+import { ImExit } from 'react-icons/im';
 
 export const AppRoutes = () => {
 
@@ -26,18 +28,26 @@ export const AppRoutes = () => {
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="/dashboard">
-            <img
-              alt=""
-              src="/logo.svg"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{' '}
-            React Bootstrap
+            Teste Pentagrama
           </Navbar.Brand>
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              {auth.auth ? <Button variant="link" onClick={() => {dispatch(toggleLoggedIn())}}>Logout</Button>: <Button variant="link" onClick={() => {dispatch(toggleLoggedIn())}} >Login</Button>} 
+              {auth.status ?
+                // <Button variant="link" onClick={() => {
+                //   dispatch(logout());
+                //   dispatch(toggleLoggedIn());
+                //   }}>Logout</Button>
+
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic" >
+                    {auth.userName} <img style={{paddingRight: "15px", borderRadius: "50%"}} src={`https://avatars.dicebear.com/api/adventurer-neutral/${encodeURIComponent(auth.userName.trim())}.svg`}></img>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1" style={{color: "black"}}>Logout <ImExit  /></Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                : <Button variant="link" onClick={() => { dispatch(toggleLoggedIn()) }} >Login</Button>}
             </Navbar.Text>
           </Navbar.Collapse>
         </Container>
@@ -45,11 +55,11 @@ export const AppRoutes = () => {
 
       <Router>
         <Routes>
-          <Route path="/" element={<Landing />} /> {/* tela de login */}
-          <Route path="/city" element={auth.auth ? <City /> : <Landing />} /> {/* Tela de cadastro de cidade */}
-          <Route path="/neighbourhood" element={auth.auth ? <Neighbourhood />  : <Landing />} /> {/* Tela de cadastro de bairro */}
-          <Route path="/dashboard" element={auth.auth ? <Dashboard />  : <Landing />} /> {/* Relatório de cidades e bairro */}
-          <Route path="/user" element={auth.auth ? <User />  : <Landing />} /> {/* Tela de cadastro de usuário. */}
+          <Route path="/" element={localStorage.getItem('status') === "success" ? <Dashboard /> : <Landing />} /> {/* tela de login */}
+          <Route path="/city" element={auth.status ? <City /> : <Landing />} /> {/* Tela de cadastro de cidade */}
+          <Route path="/neighbourhood" element={auth.status ? <Neighbourhood /> : <Landing />} /> {/* Tela de cadastro de bairro */}
+          <Route path="/dashboard" element={auth.status ? <Dashboard /> : <Landing />} /> {/* Relatório de cidades e bairro */}
+          <Route path="/user" element={auth.status ? <User /> : <Landing />} /> {/* Tela de cadastro de usuário. */}
         </Routes>
       </Router>
 

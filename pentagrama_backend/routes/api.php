@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\NeighbourhoodController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login')->name('login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout')->name('logout');
+    Route::post('refresh', 'refresh');
 });
+
+Route::controller(CityController::class)->middleware("auth:api")->group(function () {
+    Route::get('city', 'index');
+    Route::post('city', 'create');
+    Route::get('city/{id}', 'read');
+    Route::put('city/{id}', 'update');
+    Route::delete('city/{id}', 'delete');
+}); 
+
+Route::controller(NeighbourhoodController::class)->middleware("auth:api")->group(function () {
+    Route::get('neighbourhood', 'index');
+    Route::post('neighbourhood', 'create');
+    Route::get('neighbourhood/{id}', 'read');
+    Route::put('neighbourhood/{id}', 'update');
+    Route::delete('neighbourhood/{id}', 'delete');
+}); 
