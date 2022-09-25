@@ -11,6 +11,20 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../services/redux/store';
 import { toggleLoggedIn } from '../../slices/authSlice';
+import { Col, Container, Row } from 'react-bootstrap';
+
+import Modal from 'react-modal';
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 
 export const Landing = () => {
 
@@ -24,30 +38,86 @@ export const Landing = () => {
     dispatch(toggleLoggedIn())
   }
 
-  return (
-    <div className="main-wrapper">
-      <div className='login-form'>
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
+  const [modalIsOpen, setIsOpen] = React.useState(false);
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-          <Button variant="primary" type="submit" onClick ={() => handleLogin()}>
-            Submit
-          </Button>
-        </Form>
+  function openModal() {
+    setIsOpen(true);
+  }
+
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  return (
+    <div className="main-wrapper" style={{marginTop: "10rem"}}>
+
+
+
+
+
+        <Container style={{height: "100%"}}>
+          <Row > 
+            <Col xs={6} >
+              <div style={{display:'flex', flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+
+              
+              <h2 className="greetings">Bem vindo de volta!</h2>
+              <Button onClick={openModal}>Login</Button>
+              </div>
+            </Col>
+            <Col xs={6}>
+              <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Text className="text-muted">
+                    We'll never share your email with anyone else.
+                  </Form.Text>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password" />
+                </Form.Group>
+
+
+
+                <Button variant="primary" type="submit" onClick={() => handleLogin()}>
+                  Register
+                </Button>
+              </Form></Col>
+          </Row>
+        </Container>
+
+        <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+            <Form>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control type="email" placeholder="Enter email" />
+        <Form.Text className="text-muted">
+          We'll never share your email with anyone else.
+        </Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" placeholder="Password" />
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
+      </Modal>
       </div>
-    </div>
   )
 }

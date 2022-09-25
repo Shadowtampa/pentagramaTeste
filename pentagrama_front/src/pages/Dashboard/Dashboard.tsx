@@ -52,13 +52,7 @@ export const Dashboard = () => {
   const neighbourhoods = useSelector((state: RootState) => state.neighbourhood.neighbourhoods);
 
   const [presentationCities, setPresentationCities] = useState(cities)
-  const [presentationNeighbourhoods, setPresentationNeighbourhoods] = useState(neighbourhoods)
-
-  
-  useEffect(() => {
-    console.log(registerModel)
-  }, [registerModel])
-  
+  const [presentationNeighbourhoods, setPresentationNeighbourhoods] = useState(neighbourhoods) 
 
   return (
     <div className='main-wrapper'>
