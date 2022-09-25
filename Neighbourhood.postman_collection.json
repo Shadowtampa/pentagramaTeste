@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "3de4f9e6-2653-4496-934b-358b120f6176",
+		"name": "Neighbourhood",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18207818"
+	},
+	"item": [
+		{
+			"name": "{{localURL}}/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localURL}}/city",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"city"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{localURL}}/users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"teste 1\",\r\n    \"city_id\": \"1\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localURL}}/neighbourhood",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"neighbourhood"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{localURL}}/city/5",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localURL}}/city/5",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"city",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{localURL}}/city/5 Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{localURL}}/city/5",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"city",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{localURL}}/city/2",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"testeUpdate2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localURL}}/neighbourhood/2",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"neighbourhood",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

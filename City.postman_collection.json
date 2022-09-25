@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "938cb847-8ab8-48ab-b105-d60de54ce3c7",
+		"name": "City",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18207818"
+	},
+	"item": [
+		{
+			"name": "{{localURL}}/users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localURL}}/city",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"city"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{localURL}}/users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"teste 2 base\",\r\n    \"state\": \"teste 1\",\r\n    \"foundation\": \"10-3-2001\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localURL}}/city",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"city"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{localURL}}/city/5",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localURL}}/city/5",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"city",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{localURL}}/city/5 Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{localURL}}/city/5",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"city",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{localURL}}/city/2",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"testeUpdate2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localURL}}/city/2",
+					"host": [
+						"{{localURL}}"
+					],
+					"path": [
+						"city",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
